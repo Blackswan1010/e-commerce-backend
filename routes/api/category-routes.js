@@ -17,6 +17,7 @@ router.get('/:id', (req, res) => {
   // get one category
   // some req.param.nonsense
   // send it back to the user
+
 });
 
 router.post('/', (req, res) => {
@@ -24,6 +25,7 @@ router.post('/', (req, res) => {
   // get the body and get the contents and insert into sequelize
   // category(DOT) create
   // return it back as res.json
+
 });
 
 router.put('/:id', (req, res) => {
@@ -31,6 +33,7 @@ router.put('/:id', (req, res) => {
   // taking in an id as a parameter and also receiving a req.body
   // sequelize update
   // return a res.json
+
 });
 
 router.delete('/:id', (req, res) => {
@@ -38,6 +41,7 @@ router.delete('/:id', (req, res) => {
   // DESTROY
   // destroying based off the req.params.id
   // res.json to let the server
+  
 });
 
 module.exports = router;
