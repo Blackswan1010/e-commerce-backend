@@ -59,11 +59,12 @@ router.put('/:id', async (req, res) => {
       },
       {
         where: { id: req.params.id }
-      })
+      });
     if (!updateTag) {
       res.status(404).json({ message: 'No tag to update!' });
       return;
     }
+    res.status(200).json({message: 'Tag updated with new name!'});
   } catch (err) {
     res.json(err);
   }
