@@ -37,7 +37,6 @@ router.get('/:id', async (req, res) => {
   } catch (err) {
     res.status(500).json(err);
   }
-
 });
 
 router.post('/', async (req, res) => {
@@ -45,7 +44,16 @@ router.post('/', async (req, res) => {
   // get the body and get the contents and insert into sequelize
   // category(DOT) create
   // return it back as res.json
-
+ 
+  Category.create({
+    category_name: req.body.category_name
+  })
+    .then((newCategory) => {
+      res.json(newCategory);
+    })
+    .catch((err) => {
+      res.json(err);
+    })
 
 });
 
@@ -53,7 +61,25 @@ router.put('/:id', async (req, res) => {
   // update a category by its `id` value
   // taking in an id as a parameter and also receiving a req.body
   // sequelize update
-  // return a res.json
+  // return a res.json 
+  Category.update(
+    {
+      category_name: req.body.category_name
+    },
+    {
+      where: {
+        id: req.params.id
+      },
+    }
+  )
+    .then((updateCategory) => {
+      console.log(updateCategory);
+      res.json( `Category was renamed!`);
+    })
+    .catch((err) => {
+      res.json(err);
+    })
+
 
 });
 
@@ -72,7 +98,7 @@ router.delete('/:id', async (req, res) => {
       res.status(404).json({ message: 'No category found!' });
       return;
     }
-    res.status(200).json({message: `Item ${req.params.id} has been removed!`});
+    res.status(200).json({ message: `Category has been removed!` });
   } catch (err) {
     res.status(500).json(err);
   }
