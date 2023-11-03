@@ -11,7 +11,7 @@ router.get('/', async (req, res) => {
   try {
     const categoryData = await Category.findAll();
     if (!categoryData) {
-      res.status(404).json({ message: 'No category found!' });
+      res.status(404).json({ message: 'No categories found!' });
       return;
     }
     res.status(200).json(categoryData);
@@ -44,7 +44,7 @@ router.post('/', async (req, res) => {
   // get the body and get the contents and insert into sequelize
   // category(DOT) create
   // return it back as res.json
- 
+
   Category.create({
     category_name: req.body.category_name
   })
@@ -62,25 +62,21 @@ router.put('/:id', async (req, res) => {
   // taking in an id as a parameter and also receiving a req.body
   // sequelize update
   // return a res.json 
-  Category.update(
-    {
-      category_name: req.body.category_name
-    },
-    {
-      where: {
-        id: req.params.id
+  try {
+    const updateCategory = Category.update(
+      {
+        category_name: req.body.category_name
       },
+      {
+        where: { id: req.params.id }
+      })
+    if (!updateCategory) {
+      res.status(404).json({ message: 'No category to update!' });
+      return;
     }
-  )
-    .then((updateCategory) => {
-      console.log(updateCategory);
-      res.json( `Category was renamed!`);
-    })
-    .catch((err) => {
-      res.json(err);
-    })
-
-
+  } catch (err) {
+    res.json(err);
+  }
 });
 
 router.delete('/:id', async (req, res) => {
@@ -89,7 +85,7 @@ router.delete('/:id', async (req, res) => {
   // destroying based off the req.params.id
   // res.json to let the server
   try {
-      const deleteCategory = await Category.destroy({
+    const deleteCategory = await Category.destroy({
       where: { id: req.params.id }
     });
     if (!deleteCategory) {
