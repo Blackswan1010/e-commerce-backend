@@ -10,12 +10,12 @@ router.get('/', async (req, res) => {
   // then send it back to the user
   try {
     const categoryData = await Category.findAll();
-    if(!categoryData){
-      res.status(404).json({message: 'No category found!'});
+    if (!categoryData) {
+      res.status(404).json({ message: 'No category found!' });
       return;
     }
     res.status(200).json(categoryData);
-  } catch (err) { 
+  } catch (err) {
     res.status(500).json(err);
   }
 });
@@ -28,13 +28,13 @@ router.get('/:id', async (req, res) => {
   // some req.param.nonsense
   // send it back to the user
   try {
-    const data = await Category.findByPk();
-    if(!data){
-      res.status(404).json({message: 'No category found!'});
+    const categoryData = await Category.findByPk(req.params.id);
+    if (!categoryData) {
+      res.status(404).json({ message: 'No category found!' });
       return;
     }
-    res.status(200).json(data);
-  } catch (err) { 
+    res.status(200).json(categoryData);
+  } catch (err) {
     res.status(500).json(err);
   }
 
@@ -45,16 +45,7 @@ router.post('/', async (req, res) => {
   // get the body and get the contents and insert into sequelize
   // category(DOT) create
   // return it back as res.json
-  try {
-    const data = await Category.create();
-    if(!data){
-      res.status(404).json({message: 'No category found!'});
-      return;
-    }
-    res.status(200).json(data);
-  } catch (err) { 
-    res.status(500).json(err);
-  }
+
 
 });
 
@@ -63,16 +54,6 @@ router.put('/:id', async (req, res) => {
   // taking in an id as a parameter and also receiving a req.body
   // sequelize update
   // return a res.json
-  try {
-    const data = await Category.findAll();
-    if(!data){
-      res.status(404).json({message: 'No category found!'});
-      return;
-    }
-    res.status(200).json(data);
-  } catch (err) { 
-    res.status(500).json(err);
-  }
 
 });
 
@@ -82,13 +63,17 @@ router.delete('/:id', async (req, res) => {
   // destroying based off the req.params.id
   // res.json to let the server
   try {
-    const data = await Category.destroy();
-    if(!data){
-      res.status(404).json({message: 'No category found!'});
+    const categoryData = await Category.destroy({
+      where: {
+        id: req.params.id
+      }
+    });
+    if (!categoryData) {
+      res.status(404).json({ message: 'No category found!' });
       return;
     }
-    res.status(200).json(data);
-  } catch (err) { 
+    res.status(200).json({message: `Item ${req.params.id} has been removed!`});
+  } catch (err) {
     res.status(500).json(err);
   }
 
