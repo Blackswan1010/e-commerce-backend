@@ -45,15 +45,17 @@ router.post('/', async (req, res) => {
   // category(DOT) create
   // return it back as res.json
 
-  Category.create({
-    category_name: req.body.category_name
-  })
-    .then((newCategory) => {
-      res.json(newCategory);
-    })
-    .catch((err) => {
-      res.json(err);
-    })
+  try {
+    const newCategory =  Category.create({
+      category_name: req.body.category_name
+    });
+    if(!newCategory){
+      res.status(404).json({message: `Failed to create a new category!`});
+    }
+    res.status(200).json({message: `Successfully created new category!`});
+  } catch (err) {
+    res.json(err);
+  }
 
 });
 
