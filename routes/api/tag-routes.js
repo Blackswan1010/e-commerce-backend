@@ -8,12 +8,12 @@ router.get('/', async (req, res) => {
   // be sure to include its associated Product data
   try {
     const tagData = await Tag.findAll();
-    if(!tagData){
-      res.status(404).json({message: 'No category found!'});
+    if (!tagData) {
+      res.status(404).json({ message: 'No category found!' });
       return;
     }
     res.status(200).json(tagData);
-  } catch (err) { 
+  } catch (err) {
     res.status(500).json(err);
   }
 });
@@ -23,32 +23,29 @@ router.get('/:id', async (req, res) => {
   // be sure to include its associated Product data
   try {
     const tagData = await Tag.findByPk(req.params.id);
-    if(!tagData){
-      res.status(404).json({message: 'No category found!'});
+    if (!tagData) {
+      res.status(404).json({ message: 'No category found!' });
       return;
     }
     res.status(200).json(tagData);
-  } catch (err) { 
+  } catch (err) {
     res.status(500).json(err);
   }
 });
 
 router.post('/', async (req, res) => {
   // create a new tag
-  try {
-    const tagData = await Tag.create({
-      where: {
-        id: req.body
-      }
-    });
-    if(!tagData){
-      res.status(404).json({message: 'No category found!'});
-      return;
-    }
-    res.status(200).json(tagData);
-  } catch (err) { 
-    res.status(500).json(err);
-  }
+
+  Tag.create({
+    tag_name: req.body.tag_name
+  })
+    .then((newTag) => {
+      res.json(newTag);
+    })
+    .catch((err) => {
+      res.json(err);
+    })
+
 });
 
 router.put('/:id', async (req, res) => {
@@ -57,6 +54,17 @@ router.put('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   // delete on tag by its `id` value
+  try {
+    const deleteTag = Tag.destroy({
+      where: { id: req.params.id }
+    });
+    if (!deleteTag) {
+      res.status(404).json({ message: 'No tag to delete!' });
+    }
+    res.status(200).json({ message: 'Tag deleted!'});
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
 
 module.exports = router;
