@@ -8,7 +8,6 @@ Category.init(
   {
     // define columns
     // id, category name
-
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
