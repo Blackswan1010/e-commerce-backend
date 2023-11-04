@@ -5,7 +5,7 @@
 
 Connecting the e-commerce backend with Object Relational Mapping(ORM) 
 
-Video Link: []()
+Video Link: [https://drive.google.com/file/d/1RFDvR44DvPBsA_BkG9DubZg-jkxjFFZY/view](https://drive.google.com/file/d/1RFDvR44DvPBsA_BkG9DubZg-jkxjFFZY/view)
 
 ## Installation 
 
