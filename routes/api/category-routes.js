@@ -9,7 +9,9 @@ router.get('/', async (req, res) => {
   // get all from model
   // then send it back to the user
   try {
-    const categoryData = await Category.findAll();
+    const categoryData = await Category.findAll({
+      include:[{model:Product}]
+    });
     if (!categoryData) {
       res.status(404).json({ message: 'No categories found!' });
       return;
@@ -28,7 +30,9 @@ router.get('/:id', async (req, res) => {
   // some req.param.nonsense
   // send it back to the user
   try {
-    const categoryData = await Category.findByPk(req.params.id);
+    const categoryData = await Category.findByPk(req.params.id, {
+      include: [{ model: Product}]
+    });
     if (!categoryData) {
       res.status(404).json({ message: 'No category found!' });
       return;
@@ -51,6 +55,7 @@ router.post('/', async (req, res) => {
     });
     if(!newCategory){
       res.status(404).json({message: `Failed to create a new category!`});
+      return;
     }
     res.status(200).json({message: `Successfully created new category!`});
   } catch (err) {
@@ -76,6 +81,7 @@ router.put('/:id', async (req, res) => {
       res.status(404).json({ message: 'No category to update!' });
       return;
     }
+    res.status(200).json({message: 'Category updated with new name!'});
   } catch (err) {
     res.json(err);
   }
